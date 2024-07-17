@@ -12,12 +12,13 @@
                    2021/05/26: 区别http/https代理
 ------------------------------------------------------
 """
+import secrets
+
 __author__ = 'JHao'
 
 from redis.exceptions import TimeoutError, ConnectionError, ResponseError
 from redis.connection import BlockingConnectionPool
 from handler.logHandler import LogHandler
-from random import choice
 from redis import Redis
 import json
 
@@ -55,10 +56,10 @@ class RedisClient(object):
         if https:
             items = self.__conn.hvals(self.name)
             proxies = list(filter(lambda x: json.loads(x).get("https"), items))
-            return choice(proxies) if proxies else None
+            return secrets.choice(proxies) if proxies else None
         else:
             proxies = self.__conn.hkeys(self.name)
-            proxy = choice(proxies) if proxies else None
+            proxy = secrets.choice(proxies) if proxies else None
             return self.__conn.hget(self.name, proxy) if proxy else None
 
     def put(self, proxy_obj):
