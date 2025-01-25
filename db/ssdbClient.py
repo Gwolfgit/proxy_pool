@@ -15,11 +15,12 @@
                    2021/05/26: 区分http和https代理
 -------------------------------------------------
 """
+import secrets
+
 __author__ = 'JHao'
 from redis.exceptions import TimeoutError, ConnectionError, ResponseError
 from redis.connection import BlockingConnectionPool
 from handler.logHandler import LogHandler
-from random import choice
 from redis import Redis
 import json
 
@@ -55,10 +56,10 @@ class SsdbClient(object):
         if https:
             items_dict = self.__conn.hgetall(self.name)
             proxies = list(filter(lambda x: json.loads(x).get("https"), items_dict.values()))
-            return choice(proxies) if proxies else None
+            return secrets.choice(proxies) if proxies else None
         else:
             proxies = self.__conn.hkeys(self.name)
-            proxy = choice(proxies) if proxies else None
+            proxy = secrets.choice(proxies) if proxies else None
             return self.__conn.hget(self.name, proxy) if proxy else None
 
     def put(self, proxy_obj):

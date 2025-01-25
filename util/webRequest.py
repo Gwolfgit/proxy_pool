@@ -10,12 +10,13 @@
                    2017/7/31:
 -------------------------------------------------
 """
+import secrets
+
 __author__ = 'J_hao'
 
 from requests.models import Response
 from lxml import etree
 import requests
-import random
 import time
 
 from handler.logHandler import LogHandler
@@ -46,7 +47,7 @@ class WebRequest(object):
             'Mozilla/5.0 (Windows NT 5.1; U; en; rv:1.8.1) Gecko/20061208 Firefox/2.0.0 Opera 9.50',
             'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:34.0) Gecko/20100101 Firefox/34.0',
         ]
-        return random.choice(ua_list)
+        return secrets.choice(ua_list)
 
     @property
     def header(self):
