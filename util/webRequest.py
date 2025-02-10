@@ -10,6 +10,8 @@
                    2017/7/31:
 -------------------------------------------------
 """
+from security import safe_requests
+
 __author__ = 'J_hao'
 
 from requests.models import Response
@@ -74,7 +76,7 @@ class WebRequest(object):
             headers.update(header)
         while True:
             try:
-                self.response = requests.get(url, headers=headers, timeout=timeout, *args, **kwargs)
+                self.response = safe_requests.get(url, headers=headers, timeout=timeout, *args, **kwargs)
                 return self
             except Exception as e:
                 self.log.error("requests: %s error: %s" % (url, str(e)))
